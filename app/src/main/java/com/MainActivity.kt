@@ -73,21 +73,14 @@ class MainActivity : AppCompatActivity() {
                 showLogoutDialog()
             }
             section.setHasFixedSize(true)
-            val manager = LinearLayoutManager(this)
-            section.setLayoutManager(manager);
-            val token_test ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mzg0Mjg3MTQsInVzZXIiOiI1Y2ViMzlkMzhlMWRiMDIxNzBlOTNlNzUiLCJuYW1lIjoiTEUgRFVDIExJTkgifQ.RfTMzMf9xAejvAeX5LlPe4ayLjtnAEsJ83FjOm6zfzQ"
-
-            if (token != null) {
+            section.layoutManager = LinearLayoutManager(this)
             swipeRefreshLayout.setOnRefreshListener {
                 list.clear()
-                getMemos(token_test)
+                getMemos()
                 swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(this, "ページが更新されました!", Toast.LENGTH_SHORT).show()
             }
-
-                getMemos(token_test)
-            }
-
+            getMemos()
         } else {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
@@ -159,30 +152,27 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    fun getMemos(token: String){
+    fun getMemos(){
         val gson = Gson()
         swipeRefreshLayout.isRefreshing = true
         swipeRefreshLayout.isEnabled = true
-        Log.v("ABC", "ABC")
-        RetrofitMemo.instance.getSection("Bearer" + token).enqueue(object :
+
+        RetrofitMemo.instance.getSection().enqueue(object :
         Callback<ArrayList<Memo>>{
             override fun onResponse(call: Call<ArrayList<Memo>>, response: Response<ArrayList<Memo>>) {
                 swipeRefreshLayout.isRefreshing = false
                 swipeRefreshLayout.isEnabled = true
-
                 response.body()?.let {
                     list.addAll(it)
-                    Log.v("ABC3", gson.toJson(list))
                 }
-                //val adapter = MemoAdapter(list)
-
-                //section.adapter = adapter
+                val adapter = MemoAdapter(list)
+                section.adapter = adapter
             }
 
             override fun onFailure(call: Call<ArrayList<Memo>>, t: Throwable) {
                 swipeRefreshLayout.isRefreshing = false
                 swipeRefreshLayout.isEnabled = true
-                Log.v("ABC1", "ABC1")
+                Log.v("ABC1", "Get False")
 
             }
 

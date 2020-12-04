@@ -65,15 +65,15 @@
                 app:civ_border_color="@color/test2"
                 app:civ_border_width="2dp" />
 
-            <EditText
-                android:id="@+id/memo_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical|center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:layout_marginRight="15dp"
-                android:inputType="textLongMessage"
-                android:hint="メモ"/>
+                android:text="メモ作成" />
 
 
         </LinearLayout>
@@ -87,12 +87,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/memo_create">
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeToRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="2dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section"
@@ -102,7 +105,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="-2dp"
-                android:layout_marginTop="-1dp"
+                android:layout_marginTop="-5dp"
                 android:layout_marginBottom="0dp"
                 android:clipToPadding="false"
                 android:padding="4dp"
