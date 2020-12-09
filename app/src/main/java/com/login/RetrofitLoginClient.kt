@@ -7,7 +7,7 @@ object RetrofitLoginClient {
     private const val SERVER_FILE = "http://172.16.0.210"
     //private const val SERVER_FILE = "http://172.16.2.9"
     private const val ACCOUNT_PORT = "3999"
-    private const val BASE_URL = "${SERVER_FILE}:${ACCOUNT_PORT}"
+    const val BASE_URL = "${SERVER_FILE}:${ACCOUNT_PORT}"
     val instance: UserApi by lazy {
         val retrofit = Retrofit.Builder()
 

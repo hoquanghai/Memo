@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     private val RECORD_REQUEST_CODE = 1
     companion object {
         lateinit var instance: MainActivity
-        const val PERMISSION_REQUEST_STORAGE = 0
     }
 
     init {
@@ -45,6 +44,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var memo_avatar: CircleImageView
     lateinit var section: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var input_memo: Button
+    val gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         memo_avatar =findViewById(R.id.memo_avatar)
         section =findViewById(R.id.section)
         swipeRefreshLayout = findViewById(R.id.swipeToRefresh)
+        input_memo = findViewById(R.id.input_memo)
+        input_memo.setOnClickListener{
+            val intent = Intent(this@MainActivity, Memo_input::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         if (checkUserExist() == true && checkTokenValueDate() == true) {
             checkTokenValueDate()
@@ -65,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             val user = UserHelper(this).get()
             val token = TokenHelper(this).get()
             val avatar_url = "${URL_AVATAR}/${user?.picture?.medium}" +"?auth_token=" +"${token}"
+            intent.putExtra("avatar_url",avatar_url)
             Picasso.get().load(avatar_url)
                 .into(memo_avatar);
             Picasso.get().load(avatar_url)

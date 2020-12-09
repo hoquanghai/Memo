@@ -66,14 +66,16 @@
                 app:civ_border_width="2dp" />
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical|center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:id="@+id/input_memo"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
                 android:layout_weight="1"
-                android:text="メモ作成" />
+                android:background="@drawable/comment_background"
+                android:ems="10"
+                android:hint="メモ作成"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_gravity="center_vertical"/>
 
 
         </LinearLayout>
@@ -83,9 +85,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="140dp"
         app:layout_constraintTop_toBottomOf="@+id/memo_create">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -93,9 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="2dp">
+            android:layout_marginEnd="0dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section"

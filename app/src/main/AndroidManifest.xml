@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.memo">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,11 +19,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.login.LoginActivity"
-                  android:label="どこいつメモ"/>
-
-        <activity android:name="com.MainActivity"
-                  android:label="どこいつメモ">
+        <activity android:name=".ImageActivity"></activity>
+        <activity android:name="com.Image_upload.ImageActivity" />
+        <activity android:name="com.Memo_input" />
+        <activity android:name="com.Memo_input.Memo_input" />
+        <activity
+            android:name="com.login.LoginActivity"
+            android:label="どこいつメモ" />
+        <activity
+            android:name="com.MainActivity"
+            android:label="どこいつメモ">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
