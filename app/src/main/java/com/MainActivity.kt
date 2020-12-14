@@ -71,6 +71,9 @@ class MainActivity : AppCompatActivity() {
             val URL_AVATAR = "$SERVER_FILE:$FILE_PORT/api/v1/avatar"
             val user = UserHelper(this).get()
             val token = TokenHelper(this).get()
+            if (token != null) {
+                Log.v("token", token)
+            }
             val avatar_url = "${URL_AVATAR}/${user?.picture?.medium}" +"?auth_token=" +"${token}"
             intent.putExtra("avatar_url",avatar_url)
             Picasso.get().load(avatar_url)
@@ -162,6 +165,9 @@ class MainActivity : AppCompatActivity() {
 
     fun getMemos(){
         val gson = Gson()
+        val user = UserHelper(this).get()
+        val token = TokenHelper(this).get()
+        val avatar_url = "http://172.16.0.210:2998/api/v1/avatar/"+"${user?.picture?.medium}" +"?auth_token=" +"${token}"
         swipeRefreshLayout.isRefreshing = true
         swipeRefreshLayout.isEnabled = true
 
@@ -173,7 +179,7 @@ class MainActivity : AppCompatActivity() {
                 response.body()?.let {
                     list.addAll(it)
                 }
-                val adapter = MemoAdapter(list)
+                val adapter = user?.let { MemoAdapter(this@MainActivity,list, it,avatar_url) }
                 section.adapter = adapter
             }
 
@@ -186,5 +192,6 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
+
 
 }

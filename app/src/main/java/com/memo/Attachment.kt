@@ -1,13 +1,12 @@
 package com.memo
 
-class Attachment(
-    val id: Int?= null,
-    val parentId: Int?= null,
-    val destination: String? = "",
-    val filename: String? = "",
-    val mimetype: String? = "",
-    val originalname: String? = "",
-    val path: String? = "",
-    val size: Int?= null,
-) {
+class Attachment {
+    var fieldname: String? = null
+    var originalname: String? = null
+    var encoding: String? = null
+    var mimetype: String? = null
+    var destination: String? = null
+    var filename: String? = null
+    var path: String? = null
+    var size: Long = 0
 }

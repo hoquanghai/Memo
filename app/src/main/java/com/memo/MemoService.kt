@@ -1,6 +1,5 @@
 package com.memo
 
-import com.login.User
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,6 +15,9 @@ interface MemoService {
 
     @POST("timeline")
     fun createUser(@Body memo: Memo?): Call<Memo>
+
+    @POST("comment")
+    fun createComment(@Body comment: Comment): Call<Comment>
 
 }
 

@@ -2,26 +2,32 @@ package com.memo
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.MainActivity
 import com.google.gson.Gson
-import com.login.UserHelper
+import com.login.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MemoAdapter(private val list: ArrayList<Memo>): RecyclerView.Adapter<MemoAdapter.MemoViewHolder>(){
+class MemoAdapter(context: Context,
+                  private val list: ArrayList<Memo>,
+                  private val currentUser: User,
+                  private val avatar_url: String): RecyclerView.Adapter<MemoAdapter.MemoViewHolder>(){
 
 
     val gson = Gson()
@@ -40,6 +46,9 @@ class MemoAdapter(private val list: ArrayList<Memo>): RecyclerView.Adapter<MemoA
         var user_avatar: CircleImageView = itemView.findViewById(R.id.user_avatar)
         var list_image: RecyclerView = itemView.findViewById(R.id.list_image)
         var list_comment: RecyclerView = itemView.findViewById(R.id.list_comment)
+        var comment_avatar: CircleImageView = itemView.findViewById((R.id.comment_avatar))
+        var comment_put: ImageButton = itemView.findViewById(R.id.comment_put)
+        var comment_input: EditText = itemView.findViewById(R.id.comment_input)
 
 //        fun bind(memoResponse: Memo){
 //            with(itemView) {
@@ -115,7 +124,7 @@ class MemoAdapter(private val list: ArrayList<Memo>): RecyclerView.Adapter<MemoA
 
     @SuppressLint("WrongConstant")
     override fun onBindViewHolder(holder: MemoViewHolder, position: Int) {
-//        holder.bind(list[position])
+
         val movie = list[position]
         holder.create_time.text = formatDate(movie.createdAt)
         holder.memo_title.text = movie.memoTitle
@@ -123,6 +132,49 @@ class MemoAdapter(private val list: ArrayList<Memo>): RecyclerView.Adapter<MemoA
         val url_avatar ="http://172.16.0.210/dr/dist/img/member/" +"${movie.avatar}"
         Picasso.get().load(url_avatar)
           .into(holder.user_avatar);
+
+        Picasso.get().load(avatar_url)
+                .into(holder.comment_avatar)
+        Log.v("avatar_url", avatar_url)
+
+        holder.comment_put.setOnClickListener{
+
+            val newComment = Comment(
+                    avatar = currentUser?.picture?.thumbnail,
+                    createdAt = Date().toString(),
+                    createPerson = currentUser?.name,
+                    group = "abc",
+                    timelineId = movie.id,
+                    commentTitle = holder.comment_input.getText().toString(),
+                    personId = "nnj",
+                    regular = "fhfh",
+                    position = "fgfg",
+                    updatedAt = Date().toString(),
+
+                    )
+            if (newComment.commentTitle != "") {
+                Log.v("MemoResponse111", gson.toJson(newComment))
+                RetrofitMemo.instance.createComment(newComment).enqueue(object :
+                        Callback<Comment> {
+                    override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
+                        val body = response.body()
+                        Log.v("CommentResponse", gson.toJson(body))
+                    }
+
+                    override fun onFailure(call: Call<Comment>, t: Throwable) {
+                    }
+
+                })
+
+//                val intent = Intent(context, MainActivity::class.java)
+//                startActivity(intent)
+//                finish()
+            }
+
+        }
+
+
+
 
         val commentLayoutManaget = LinearLayoutManager(holder.list_comment.context)
         holder.list_comment.apply {
